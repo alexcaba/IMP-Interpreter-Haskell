@@ -1,0 +1,21 @@
+322CB - Caba Alexandru - Tema 2
+
+  Functia evalExpr primeste o expresie de tip Expr, o lista de perechi (String, Int) unde sunt retinute toate variabilele initializate si returneaza fie un String(ce reprezinta o eroare) fie un Int(valoarea la care s-a evaluat expresia).
+  Pentru tipul Value returnez Right(value)
+  Pentru tipul Symbol caut numele variabilei in lista primita argument si in caz ca aceasta nu este gasita se returneaza eroare: "Uninitialized variable", altfel valoarea gasita in lista.
+  Pentru tipul Add/Sub/Mult se evalueaza expresia expr1. In caz de eroare, returnez mai departe left, altfel evaluez si expr2. Verific din nou daca a fost returnat un string altfel intorc expr1 (+/-/*) expr2.
+  Pentru tipul Equal/Smaller se evalueaza in acelasi mod ca si la Add/Sub/Mult cu diferenta ca la final de tot se intoarce Right(1) daca expresia a fost evaluata la true sau Right(0) pentru false.
+  
+  Functia insertVar primeste un nume, o valoare, o lista de perechi si returneaza o lista de perechi cu valoarea noua introdusa/modificata. Se cauta in lista element cu element numele variabilei ce urmeaza a fi introdusa. Daca variabila nu este gasita, reintroducem elementul in lista. Daca variabila este gasita, o ignoram si o introducem la final cu noua valoare, exceptie facand cazul in care se reintroduce valoare de return unde se patreaza prima valoare a acesteia.
+  
+  Functia evalAsgn primeste un assignment de tip Asgn, o lista de variabile si returneaza noua lista sau un string de eroare. Se incearca evaluarea expresiei primite pentru tipul Asgn. Daca acesta esueaza se returneaza eroare altfel se returneaza o alta lista cu noua variabila introdusa in aceasta. (insertVar name value l)
+  
+  Functia evalProg primeste un program de tip Prog, o lista de perechi reprezentand varibilele si returneaza fie un String pentru erori fie lista de variabile mai departe.
+  Pentru tipul Seq se evalueaza prog1. Daca aceasta da left returnez eroarea mai departe, altfel evaluez si prog2 pe lista returnata de evaluarea programului prog1. Verific din nou tipul returnat si returnez String sau lista noua dupa caz.
+  Pentru tipul Eq se evalueaza cu ajutorul functiei evalAsgn. Returneaza fie eroare, fie noua lista.
+  Pentru tipul For se evalueaza primul assign. Daca acesta reuseste se trece la evaluarea conditiei, iar daca aceasta intoarce right se verifica valoarea returnata. In caz de 0(false) nu se mai apeleaza for-ul si se returneaza lista returnata de la assign1, altfel pentru 1(true) se evalueaza prog din cadrul for-ului si daca nu da eroare se reapeleaza evalProg pentru for cu noua lista.
+  Pentru tipul If se evalueaza conditia cond. Daca nu avem erori, in functie de valoarea returnata (0-false / 1-true) se evalueaza prog1(then) sau prog2(else).
+  Pentru tipul Assert se evalueaza conditia. In caz de eroare, o dau mai departe, altfel verific daca conditia a fost evaluata la 0 sau 1. In caz de 0 returnez eroare cu "Assert failed" altfel returnez inapoi lista.
+  Pentru tipul Return evaluez expresia si introduc in lista valoarea de return daca nu exista erori.
+  
+ Functia evalAdt evalueaza programul primit parametru pornind cu o lista goala. Daca returneaza String intorc eroarea, altfel caut valoarea de return in lista primita. Daca aceasta nu este gasita avem "Missing return" altfel intorc valoarea acesteia.
